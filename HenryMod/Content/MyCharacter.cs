@@ -36,7 +36,7 @@ namespace HenryMod.Modules.Survivors
             healthRegen = 1.5f,
             armor = 0f,
 
-            jumpCount = 1,
+            jumpCount = 2,
         };
 
         public override CustomRendererInfo[] customRendererInfos { get; set; } = new CustomRendererInfo[] 

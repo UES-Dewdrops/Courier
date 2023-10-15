@@ -20,7 +20,6 @@ namespace HenryMod.Modules
             Modules.Content.AddEntityState(typeof(ThrowBomb));
 
             Modules.Content.AddEntityState(typeof(FlutterOn));
-            Modules.Content.AddEntityState(typeof(CourierMainState));
         }
     }
 }
