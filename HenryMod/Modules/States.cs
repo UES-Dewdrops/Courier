@@ -2,6 +2,7 @@
 using HenryMod.SkillStates.BaseStates;
 using System.Collections.Generic;
 using System;
+using CourierMod.Content;
 
 namespace HenryMod.Modules
 {
@@ -17,6 +18,9 @@ namespace HenryMod.Modules
             Modules.Content.AddEntityState(typeof(Roll));
 
             Modules.Content.AddEntityState(typeof(ThrowBomb));
+
+            Modules.Content.AddEntityState(typeof(FlutterOn));
+            Modules.Content.AddEntityState(typeof(CourierMainState));
         }
     }
 }

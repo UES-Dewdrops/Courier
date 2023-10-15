@@ -18,9 +18,9 @@ namespace HenryMod.Modules
             string outro = "..and so he left, searching for a new identity.";
             string outroFailure = "..and so he vanished, forever a blank slate.";
 
-            LanguageAPI.Add(prefix + "NAME", "Henry");
+            LanguageAPI.Add(prefix + "NAME", "Courier");
             LanguageAPI.Add(prefix + "DESCRIPTION", desc);
-            LanguageAPI.Add(prefix + "SUBTITLE", "The Chosen One");
+            LanguageAPI.Add(prefix + "SUBTITLE", "Messenger between realms");
             LanguageAPI.Add(prefix + "LORE", "sample lore");
             LanguageAPI.Add(prefix + "OUTRO_FLAVOR", outro);
             LanguageAPI.Add(prefix + "OUTRO_FAILURE", outroFailure);

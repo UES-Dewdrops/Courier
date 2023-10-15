@@ -1,4 +1,5 @@
 ﻿using BepInEx.Configuration;
+using CourierMod.Content;
 using HenryMod.Modules.Characters;
 using RoR2;
 using RoR2.Skills;
@@ -57,7 +58,7 @@ namespace HenryMod.Modules.Survivors
 
         public override UnlockableDef characterUnlockableDef => null;
 
-        public override Type characterMainState => typeof(EntityStates.GenericCharacterMain);
+        public override Type characterMainState => typeof(CourierMainState);
 
         public override ItemDisplaysBase itemDisplays => new HenryItemDisplays();
 

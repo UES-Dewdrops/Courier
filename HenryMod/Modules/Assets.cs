@@ -27,7 +27,7 @@ namespace HenryMod.Modules
         // CHANGE THIS
         private const string assetbundleName = Modules.StaticValues.assetbundleName;
         //change this to your project's name if/when you've renamed it
-        private const string csProjName = "HenryMod";
+        private const string csProjName = Modules.StaticValues.csProjName;
         
         internal static void Initialize()
         {
