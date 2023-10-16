@@ -1,11 +1,13 @@
 ﻿using EntityStates;
 using R2API.Utils;
 using RoR2;
+using RoR2.Projectile;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace HenryMod.SkillStates
 {
-    public class Shoot : BaseSkillState
+    public class ShootOrb : BaseSkillState
     {
         public static float damageCoefficient = Modules.StaticValues.gunDamageCoefficient;
         public static float procCoefficient = 1f;
@@ -14,6 +16,7 @@ namespace HenryMod.SkillStates
         public static float recoil = 3f;
         public static float range = 256f;
         public GameObject tracerEffectPrefab = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/Effects/Tracers/TracerGoldGat");
+        public GameObject projectilePrefab = EntityStates.Captain.Weapon.FireTazer.projectilePrefab;
 
 
         private float duration;
@@ -24,10 +27,11 @@ namespace HenryMod.SkillStates
         public override void OnEnter()
         {
             base.OnEnter();
-            this.duration = Shoot.baseDuration / this.attackSpeedStat;
+            this.duration = ShootOrb.baseDuration / this.attackSpeedStat;
             this.fireTime = 0.2f * this.duration;
             base.characterBody.SetAimTimer(2f);
             this.muzzleString = "Muzzle";
+
 
             base.PlayAnimation("LeftArm, Override", "ShootGun", "ShootGun.playbackRate", 1.8f);
 
@@ -45,15 +49,23 @@ namespace HenryMod.SkillStates
                 this.hasFired = true;
 
                 base.characterBody.AddSpreadBloom(1.5f);
-                EffectManager.SimpleMuzzleFlash(EntityStates.Commando.CommandoWeapon.FirePistol2.muzzleEffectPrefab, base.gameObject, this.muzzleString, false);
+                EffectManager.SimpleMuzzleFlash(EntityStates.Captain.Weapon.FireTazer.muzzleflashEffectPrefab, base.gameObject, this.muzzleString, false);
                 Util.PlaySound("HenryShootPistol", base.gameObject);
 
                 if (base.isAuthority)
                 {
                     Ray aimRay = base.GetAimRay();
-                    base.AddRecoil(-1f * Shoot.recoil, -2f * Shoot.recoil, -0.5f * Shoot.recoil, 0.5f * Shoot.recoil);
+                    base.AddRecoil(-1f * ShootOrb.recoil, -2f * ShootOrb.recoil, -0.5f * ShootOrb.recoil, 0.5f * ShootOrb.recoil);
 
-                    
+                    FireProjectileInfo fireProjectileInfo = default(FireProjectileInfo);
+                    fireProjectileInfo.projectilePrefab = projectilePrefab;
+                    fireProjectileInfo.position = aimRay.origin;
+                    fireProjectileInfo.rotation = Util.QuaternionSafeLookRotation(aimRay.direction);
+                    fireProjectileInfo.owner = base.gameObject;
+                    fireProjectileInfo.damage = damageStat * damageCoefficient;
+                    fireProjectileInfo.force = force;
+                    fireProjectileInfo.crit = Util.CheckRoll(critStat, base.characterBody.master);
+                    ProjectileManager.instance.FireProjectile(fireProjectileInfo);
                 }
             }
         }

@@ -13,7 +13,7 @@ namespace HenryMod.Modules
             Modules.Content.AddEntityState(typeof(BaseMeleeAttack));
             Modules.Content.AddEntityState(typeof(SlashCombo));
 
-            Modules.Content.AddEntityState(typeof(Shoot));
+            Modules.Content.AddEntityState(typeof(ShootOrb));
 
             Modules.Content.AddEntityState(typeof(Roll));
 

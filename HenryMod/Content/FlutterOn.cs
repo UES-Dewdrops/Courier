@@ -13,7 +13,6 @@ namespace CourierMod.Content
         public override void OnEnter()
         {
             base.OnEnter();
-            Log.Info("flutteron onenter");
         }
 
         public override void FixedUpdate()
@@ -21,7 +20,7 @@ namespace CourierMod.Content
             base.FixedUpdate();
             if (base.isAuthority)
             {
-                Log.Info("flutteron fixedupdate hover");
+                // TODO: Allow more horizontal control in the air
                 float y = base.characterMotor.velocity.y;
                 y = Mathf.MoveTowards(y, hoverVelocity, hoverAcceleration * Time.fixedDeltaTime);
                 base.characterMotor.velocity = new Vector3(base.characterMotor.velocity.x, y, base.characterMotor.velocity.z);
