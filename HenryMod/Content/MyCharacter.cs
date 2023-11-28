@@ -110,7 +110,7 @@ namespace HenryMod.Modules.Survivors
                 skillDescriptionToken = prefix + $"{Modules.StaticValues.characterBodyPrefix}SECONDARY_GUN_DESCRIPTION",
                 skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("texSecondaryIcon"),
                 activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.ShootOrb)),
-                activationStateMachineName = "Slide",
+                activationStateMachineName = "Weapon",
                 baseMaxStock = 3,
                 baseRechargeInterval = 1f,
                 beginSkillCooldownOnSkillEnd = false,
