@@ -1,6 +1,7 @@
 ﻿using BepInEx.Configuration;
 using CourierMod.Content;
 using HenryMod.Modules.Characters;
+using HenryMod.SkillStates;
 using RoR2;
 using RoR2.Skills;
 using System;
@@ -70,6 +71,7 @@ namespace HenryMod.Modules.Survivors
         public override void InitializeCharacter()
         {
             base.InitializeCharacter();
+            bodyPrefab.AddComponent<TeleportTracker>();
         }
 
         public override void InitializeUnlockables()
@@ -93,13 +95,31 @@ namespace HenryMod.Modules.Survivors
             string prefix = HenryPlugin.DEVELOPER_PREFIX;
 
             //Creates a skilldef for a typical primary 
-            SkillDef primarySkillDef = Modules.Skills.CreateSkillDef(new SkillDefInfo(prefix + $"{Modules.StaticValues.characterBodyPrefix}PRIMARY_SLASH_NAME",
-                                                                                      prefix + $"{Modules.StaticValues.characterBodyPrefix}PRIMARY_SLASH_DESCRIPTION",
-                                                                                      Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("texPrimaryIcon"),
-                                                                                      new EntityStates.SerializableEntityStateType(typeof(SkillStates.SlashCombo)),
-                                                                                      "Weapon",
-                                                                                      true));
 
+            SkillDef primarySkillDef = Modules.Skills.CreateSkillDef(new SkillDefInfo
+            {
+                skillName = prefix + $"{Modules.StaticValues.characterBodyPrefix}PRIMARY_GUN_NAME",
+                skillNameToken = prefix + $"{Modules.StaticValues.characterBodyPrefix}PRIMARY_GUN_NAME",
+                skillDescriptionToken = prefix + $"{Modules.StaticValues.characterBodyPrefix}PRRIMARY_GUN_DESCRIPTION",
+                skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("texPrimaryIcon"),
+                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.ShootOrb)),
+                activationStateMachineName = "Weapon",
+                baseMaxStock = 3,
+                baseRechargeInterval = 1f,
+                beginSkillCooldownOnSkillEnd = false,
+                canceledFromSprinting = false,
+                forceSprintDuringState = false,
+                fullRestockOnAssign = true,
+                interruptPriority = EntityStates.InterruptPriority.Skill,
+                resetCooldownTimerOnUse = false,
+                isCombatSkill = true,
+                mustKeyPress = false,
+                cancelSprintingOnActivation = false,
+                rechargeStock = 1,
+                requiredStock = 1,
+                stockToConsume = 1,
+                keywordTokens = new string[] { "KEYWORD_AGILE" }
+            });
 
             Modules.Skills.AddPrimarySkills(bodyPrefab, primarySkillDef);
 
@@ -109,10 +129,10 @@ namespace HenryMod.Modules.Survivors
                 skillNameToken = prefix + $"{Modules.StaticValues.characterBodyPrefix}SECONDARY_GUN_NAME",
                 skillDescriptionToken = prefix + $"{Modules.StaticValues.characterBodyPrefix}SECONDARY_GUN_DESCRIPTION",
                 skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("texSecondaryIcon"),
-                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.ShootOrb)),
+                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.TeleportSkill)),
                 activationStateMachineName = "Weapon",
-                baseMaxStock = 3,
-                baseRechargeInterval = 1f,
+                baseMaxStock = 1,
+                baseRechargeInterval = 6f,
                 beginSkillCooldownOnSkillEnd = false,
                 canceledFromSprinting = false,
                 forceSprintDuringState = false,

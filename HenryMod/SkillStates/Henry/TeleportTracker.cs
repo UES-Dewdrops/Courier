@@ -6,9 +6,24 @@ namespace HenryMod.SkillStates
 {
     public class TeleportTracker : MonoBehaviour
     {
+        private const float MaxTrackingDistance = 999f;
+        private const float MaxTrackingAngle = 20f;
+        private const float TrackerUpdateFrequency = 10f;
+        public HurtBox trackingTarget;
+        public HurtBox oldtrackingTarget;
+        public bool triggerNewTarget;
+        private TeamComponent teamComponent;
+        private InputBankTest inputBank;
+        private float trackerUpdateStopwatch;
+        private Indicator indicator;
+        private readonly BullseyeSearch search = new BullseyeSearch();
+
+        private Animator animator;
+
         private void Awake()
         {
             var visualizerPrefab = Resources.Load<GameObject>("Prefabs/HuntressTrackingIndicator");
+            indicator = new Indicator(gameObject, visualizerPrefab);
         }
 
         private void Start()
@@ -19,7 +34,7 @@ namespace HenryMod.SkillStates
 
         public HurtBox GetTrackingTarget()
         {
-            return trackingTarget;
+            return this.trackingTarget;
         }
 
         private void OnEnable()
@@ -34,6 +49,7 @@ namespace HenryMod.SkillStates
 
         private void FixedUpdate()
         {
+            //System.Console.WriteLine("Fixed Update called!");
             trackerUpdateStopwatch += Time.fixedDeltaTime;
             if (trackerUpdateStopwatch >= 1f / TrackerUpdateFrequency)
             {
@@ -99,18 +115,5 @@ namespace HenryMod.SkillStates
             }
         }
 
-        private const float MaxTrackingDistance = 999f;
-        private const float MaxTrackingAngle = 20f;
-        private const float TrackerUpdateFrequency = 10f;
-        public HurtBox trackingTarget;
-        public HurtBox oldtrackingTarget;
-        public bool triggerNewTarget;
-        private TeamComponent teamComponent;
-        private InputBankTest inputBank;
-        private float trackerUpdateStopwatch;
-        private Indicator indicator;
-        private readonly BullseyeSearch search = new BullseyeSearch();
-
-        private Animator animator;
     }
 }
