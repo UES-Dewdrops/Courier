@@ -32,9 +32,11 @@ namespace HenryMod.SkillStates
         public static float baseRadius = 6f;
         public static float baseForce = 100f;
         public static float dmgMod = 30f;
+        
 
         public static GameObject impactEffect = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Bandit2/Bandit2SmokeBomb.prefab").WaitForCompletion();
 
+        private Vector3 hopVector;
         public override void OnEnter()
         {
             base.OnEnter();
@@ -51,10 +53,9 @@ namespace HenryMod.SkillStates
                 return;
             }
 
-            //sound
-            Util.PlaySound(Roll.dodgeSoundString, base.gameObject);
+            //sound            
             base.StartAimMode();
-
+            Util.PlaySound(Roll.dodgeSoundString, base.gameObject);
 
             this.teleportStartPosition = base.transform.position;
             this.teleportTarget = this.target.transform.position;
@@ -91,7 +92,7 @@ namespace HenryMod.SkillStates
         {
             base.FixedUpdate();
             this.UpdateTarget();
-
+           
             base.characterMotor.velocity = Vector3.zero;
 
             if (base.isAuthority && base.fixedAge >= this.duration)
@@ -101,14 +102,14 @@ namespace HenryMod.SkillStates
 
                 this.outer.SetNextStateToMain();
                 this.fail = false;
-                return;                                 
+                return;
             }            
         }
 
         public override void OnExit()
         {
             base.OnExit();
-            if (this.fail == false) 
+            if (this.fail == false)
             {
                 var result = new BlastAttack
                 {
@@ -130,8 +131,7 @@ namespace HenryMod.SkillStates
 
                 base.SmallHop(base.characterMotor, TeleportSkill.smallHopVelocity);
                 var aimDirection = GetAimRay().direction;
-                characterMotor?.ApplyForce((-2500f) * aimDirection, false, false);
-                return;
+                characterMotor?.ApplyForce((2000f * this.characterDirection.forward), false, false);
             }
 
 

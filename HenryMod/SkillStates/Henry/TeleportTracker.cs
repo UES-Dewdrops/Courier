@@ -6,8 +6,8 @@ namespace HenryMod.SkillStates
 {
     public class TeleportTracker : MonoBehaviour
     {
-        private const float MaxTrackingDistance = 999f;
-        private const float MaxTrackingAngle = 20f;
+        private const float MaxTrackingDistance = 120f;
+        private const float MaxTrackingAngle = 15f;
         private const float TrackerUpdateFrequency = 10f;
         public HurtBox trackingTarget;
         public HurtBox oldtrackingTarget;
