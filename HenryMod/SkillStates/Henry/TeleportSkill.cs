@@ -42,20 +42,21 @@ namespace HenryMod.SkillStates
             base.OnEnter();
 
             this.duration = TeleportSkill.baseDuration;
+            this.fail = false;
+
+            Util.PlaySound(Roll.dodgeSoundString, base.gameObject);
 
             TeleportTracker tracker = base.GetComponent<TeleportTracker>();
             this.target = tracker.GetTrackingTarget();
             if (!this.target)
             {
                 this.outer.SetNextStateToMain();
-                this.activatorSkillSlot.AddOneStock();
                 this.fail = true;
                 return;
             }
 
             //sound            
             base.StartAimMode();
-            Util.PlaySound(Roll.dodgeSoundString, base.gameObject);
 
             this.teleportStartPosition = base.transform.position;
             this.teleportTarget = this.target.transform.position;
@@ -92,8 +93,10 @@ namespace HenryMod.SkillStates
         {
             base.FixedUpdate();
             this.UpdateTarget();
-           
-            base.characterMotor.velocity = Vector3.zero;
+            if (this.fail == false)
+            {
+                base.characterMotor.velocity = Vector3.zero;
+            }
 
             if (base.isAuthority && base.fixedAge >= this.duration)
             {
@@ -129,11 +132,11 @@ namespace HenryMod.SkillStates
 
                 }.Fire();
 
-                base.SmallHop(base.characterMotor, TeleportSkill.smallHopVelocity);
-                var aimDirection = GetAimRay().direction;
-                characterMotor?.ApplyForce((2000f * this.characterDirection.forward), false, false);
             }
-
+            
+            base.SmallHop(base.characterMotor, TeleportSkill.smallHopVelocity);
+            var aimDirection = GetAimRay().direction;
+            characterMotor?.ApplyForce((2000f * this.characterDirection.forward), false, false);
 
             if (NetworkServer.active)
             {
