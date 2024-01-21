@@ -14,7 +14,8 @@ namespace HenryMod.Modules
             Modules.Content.AddEntityState(typeof(SlashCombo));
 
             Modules.Content.AddEntityState(typeof(ShootOrb));
-
+            Modules.Content.AddEntityState(typeof(TeleportTracker));
+            Modules.Content.AddEntityState(typeof(TeleportSkill));
             Modules.Content.AddEntityState(typeof(Roll));
 
             Modules.Content.AddEntityState(typeof(ThrowBomb));
