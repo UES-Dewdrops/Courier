@@ -114,13 +114,13 @@ namespace HenryMod.SkillStates
             base.OnExit();
             if (this.fail == false)
             {
-                var result = new BlastAttack
+                new BlastAttack
                 {
                     attacker = base.gameObject,
                     baseDamage = damageStat * dmgMod,
                     baseForce = baseForce,
                     bonusForce = Vector3.down,
-                    crit = false,
+                    crit = Util.CheckRoll(base.characterBody.crit, base.characterBody.master),
                     damageType = DamageType.Stun1s,
                     falloffModel = BlastAttack.FalloffModel.None,
                     procCoefficient = 0.5f,

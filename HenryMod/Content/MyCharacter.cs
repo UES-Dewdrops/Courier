@@ -156,7 +156,7 @@ namespace HenryMod.Modules.Survivors
                 skillNameToken = prefix + $"{Modules.StaticValues.characterBodyPrefix}UTILITY_ROLL_NAME",
                 skillDescriptionToken = prefix + $"{Modules.StaticValues.characterBodyPrefix}UTILITY_ROLL_DESCRIPTION",
                 skillIcon = Modules.Assets.mainAssetBundle.LoadAsset<Sprite>("texUtilityIcon"),
-                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.Roll)),
+                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.PushSkill)),
                 activationStateMachineName = "Body",
                 baseMaxStock = 1,
                 baseRechargeInterval = 4f,
