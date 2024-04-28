@@ -12,15 +12,14 @@ namespace HenryMod.SkillStates
 {
     public class PushSkill : BaseSkillState
     {
-        public static GameObject effectPrefab2 = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Bandit2/Bandit2SmokeBomb.prefab").WaitForCompletion();
-        public static GameObject effectPrefab = Addressables.LoadAssetAsync<GameObject>("RoR2/DLC1/VoidJailer/VoidJailerDeathBombExplosion.prefab").WaitForCompletion();
-        public float damageCoefficient = 1f;
+        public static GameObject effectPrefab = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Bandit2/Bandit2SmokeBomb.prefab").WaitForCompletion();
+        public static GameObject effectPrefab2 = Addressables.LoadAssetAsync<GameObject>("RoR2/DLC1/VoidJailer/VoidJailerDeathBombExplosion.prefab").WaitForCompletion(); //I can see the size of this one more clearly
+        public float dmgMod = 1f;
         public float blastRadius = 12f;
         public float baseDuration = 0.25f;
         public static float knockbackForce = 0.14f;
 
         private float duration;
-        private float dmgMod;
         private float baseRadius;
         private Ray aimRay;
         public override void OnEnter()
@@ -29,14 +28,14 @@ namespace HenryMod.SkillStates
             
             this.aimRay = base.GetAimRay();
             this.duration = this.baseDuration;
-            this.dmgMod = this.damageCoefficient;
             this.baseRadius = this.blastRadius;
-
             base.characterMotor.disableAirControlUntilCollision = false;
+
+            base.StartAimMode(0.5f, true);
 
             if (base.isAuthority) 
             {
-                Vector3 blastLocation = (aimRay.origin + 12f * aimRay.direction);
+                Vector3 blastLocation = (this.aimRay.origin + 12f * this.aimRay.direction);
                 new BlastAttack
                 {
                     attacker = base.gameObject,
@@ -71,7 +70,8 @@ namespace HenryMod.SkillStates
 
         private void Push(Vector3 position)
         {
-            Vector3 pushForce = ((aimRay.origin + aimRay.direction) + (30 * Vector3.up));
+            Vector3 playerPosition = characterBody.footPosition;
+            Vector3 pushForce = (this.aimRay.origin + 200 * this.aimRay.direction) - playerPosition + (75 * Vector3.up);
 
             List<CharacterBody> affectedEnemies = new List<CharacterBody>();
             foreach (HurtBox hurtBox in new SphereSearch
@@ -87,7 +87,7 @@ namespace HenryMod.SkillStates
                 {
                     affectedEnemies.Add(body);
 
-                    Vector3 force = pushForce * 25f;
+                    Vector3 force = pushForce * 10f;
 
                     //Apparently I need this NaN check?
                     if (!HGMath.IsVectorNaN(force))
