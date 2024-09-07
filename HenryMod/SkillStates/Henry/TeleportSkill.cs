@@ -31,12 +31,11 @@ namespace HenryMod.SkillStates
         // kaboom
         public static float baseRadius = 6f;
         public static float baseForce = 100f;
-        public static float dmgMod = 30f;
+        public static float dmgMod = 25f;
         
 
         public static GameObject impactEffect = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Bandit2/Bandit2SmokeBomb.prefab").WaitForCompletion();
 
-        private Vector3 hopVector;
         public override void OnEnter()
         {
             base.OnEnter();
@@ -114,13 +113,13 @@ namespace HenryMod.SkillStates
             base.OnExit();
             if (this.fail == false)
             {
-                var result = new BlastAttack
+                new BlastAttack
                 {
                     attacker = base.gameObject,
                     baseDamage = damageStat * dmgMod,
                     baseForce = baseForce,
                     bonusForce = Vector3.down,
-                    crit = false,
+                    crit = Util.CheckRoll(base.characterBody.crit, base.characterBody.master),
                     damageType = DamageType.Stun1s,
                     falloffModel = BlastAttack.FalloffModel.None,
                     procCoefficient = 0.5f,
